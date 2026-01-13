@@ -12,6 +12,12 @@ public class SecurityUtils {
     public void setEncoder(BCryptPasswordEncoder encoder) {
         ENCODER = encoder;
     }
-    public static String encrypt(String raw) { return ENCODER.encode(raw); }
-    public static boolean matches(String raw, String enc) { return ENCODER.matches(raw, enc); }
+
+    public static String encrypt(String raw) {
+        return ENCODER.encode(raw);
+    }
+
+    public static boolean matches(String raw, String enc) {
+        return ENCODER.matches(raw, enc);
+    }
 }

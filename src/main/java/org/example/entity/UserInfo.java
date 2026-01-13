@@ -40,4 +40,8 @@ public class UserInfo {
     // 绑定手机号码
     @TableField("tel_phone")
     private String telPhone;
+
+    // 头像
+    @TableField("avatar")
+    private String avatar;
 }

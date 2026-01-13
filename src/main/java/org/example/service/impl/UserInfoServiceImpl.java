@@ -17,7 +17,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     private final UserAccountService userAccountService;
 
     @Override
-    public void register(String userName, String userPassword) {
+    public UserInfo register(String userName, String userPassword) {
         boolean exists = userInfoMapper.selectCount(
                 new LambdaQueryWrapper<UserInfo>()
                         .eq(UserInfo::getUserName, userName)) > 0;
@@ -26,8 +26,9 @@ public class UserInfoServiceImpl implements UserInfoService {
         }
         UserInfo userInfo = new UserInfo();
         userInfo.setUserName(userName);
-        userInfo.setUserPassword(userPassword);
-        userAccountService.createUser(userInfo);
+        userInfo.setUserPassword(userPassword);   // 记得后面做密码加密
+        userInfoMapper.insert(userInfo);          // 主键已回填
+        return userInfo;                          // 带 id 返回
     }
 
     @Override
@@ -37,6 +38,18 @@ public class UserInfoServiceImpl implements UserInfoService {
                         .eq(UserInfo::getUserAccount, userAccount));
         return user != null && SecurityUtils.matches(rawPassword, user.getUserPassword())
                 ? user : null;
+    }
+
+    /**
+     * 根据id查询用户头像URL
+     * @param id
+     * @return
+     */
+    @Override
+    public String getAvatarById(Long id) {
+        if (id == null) return "";                    // 兜底
+        UserInfo user = userInfoMapper.selectById(id); // MyBatis-Plus
+        return user == null ? "" : user.getAvatar();
     }
 
     @Override
