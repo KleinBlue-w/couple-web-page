@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 
 @Data
@@ -44,4 +45,12 @@ public class UserInfo {
     // 头像
     @TableField("avatar")
     private String avatar;
+
+    // 出生日期
+    @TableField("birthday")
+    private Date birthday;
+
+    // 性别
+    @TableField("gender")
+    private String gender;
 }
